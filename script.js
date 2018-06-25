@@ -15,22 +15,32 @@ function findRoute(origin, destination) {
   //Convert origin and destination to lowercase and no space
   let originToLower = origin.toLowerCase().replace(/\s+/g, "") 
   let desToLower = destination.toLowerCase().replace(/\s+/g, "") 
+  let result;
 
   //Check the origin exist if it exist save details
   let originObject = checkIfExists(originToLower)
 
   //Check the destination exist if it exist save details
   let destinationObject = checkIfExists(desToLower)
+  if(originObject === undefined && destinationObject === undefined){
+    console.log('Origin and destination not found, please enter valid origin staion');
+    return result = ['Origin and destination not found, please enter a valid origin staion']
+  }else if(originObject === undefined){
+    console.log('Origin not found, please enter valid staion');
+    return result = ['Origin not found, please enter a valid staion']
+  }else if(destinationObject === undefined){
+    console.log('Destination not found, please enter valid staion');
+    return result = ['Destination not found, please enter a valid staion']
+  }else{
   
   //Check if origin and destination are on the same lione
-  let result;
   if (checkIfOnSameLine(originObject, destinationObject)) {
     
     if(checkIfRichmond(originObject, destinationObject)){
       destinationObject = findRichmond(originObject.lineFound)
     }
     result = checkIfGreater(originObject, destinationObject)
-    // console.log(result);
+    console.log(result);
     return result
     
   } else {
@@ -46,9 +56,9 @@ function findRoute(origin, destination) {
     let route2 = checkIfGreater(destinationObject,richmondIndexDest).reverse()
     //Creeate ideal route 
     result = [].concat(route1).concat(route2)
-    // console.log(result);
+    console.log(result);
     return result
-  }
+  }}
 }
 
 function checkIfExists(stationToSearch) {
