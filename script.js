@@ -19,8 +19,8 @@ function findRoute(origin, destination) {
 
   //Check the origin exist if it exist save details
   let originObject = checkIfExists(originToLower)
-
-  //Check the destination exist if it exist save details
+  
+  //Check the destination exist if it exist save details if not handle unfund station
   let destinationObject = checkIfExists(desToLower)
   if(originObject === undefined && destinationObject === undefined){
     console.log('Origin and destination not found, please enter valid origin staion');
@@ -33,46 +33,46 @@ function findRoute(origin, destination) {
     return result = ['Destination not found, please enter a valid staion']
   }else{
   
-  //Check if origin and destination are on the same lione
-  if (checkIfOnSameLine(originObject, destinationObject)) {
-    
-    if(checkIfRichmond(originObject, destinationObject)){
-      destinationObject = findRichmond(originObject.lineFound)
-    }
-    result = checkIfGreater(originObject, destinationObject)
-    console.log(result);
-    return result
-    
-  } else {
-    //if not on the same line find Richmond on origin line
-    let richmondIndexOrigin = findRichmond(originObject.lineFound)
-    //Find richmond on destination line
-    let richmondIndexDest = findRichmond(destinationObject.lineFound)
+    //Check if origin and destination are on the same line
+    if (checkIfOnSameLine(originObject, destinationObject)) {
+      
+      if(checkIfRichmond(originObject, destinationObject)){
+        destinationObject = findRichmond(originObject.lineFound)
+      }
+      result = checkIfGreater(originObject, destinationObject)
+      console.log(result);
+      return result
+      
+    } else {
+      //if not on the same line find Richmond on origin line
+      let richmondIndexOrigin = findRichmond(originObject.lineFound)
+      //Find richmond on destination line
+      let richmondIndexDest = findRichmond(destinationObject.lineFound)
 
-    // Slice the portion from origin to Richmond
-    let route1 = checkIfGreater(originObject, richmondIndexOrigin)
-    
-    //Slice the portion from Richmond to destiantion
-    let route2 = checkIfGreater(destinationObject,richmondIndexDest).reverse()
-    //Creeate ideal route 
-    result = [].concat(route1).concat(route2)
-    console.log(result);
-    return result
-  }}
-}
+      // Slice the portion from origin to Richmond
+      let route1 = checkIfGreater(originObject, richmondIndexOrigin)
+      
+      //Slice the portion from Richmond to destiantion
+      let route2 = checkIfGreater(destinationObject,richmondIndexDest).reverse()
+      //Creeate ideal route 
+      result = [].concat(route1).concat(route2)
+      console.log(result);
+      return result
+    }}
+  }
 
-function checkIfExists(stationToSearch) {
-  for (i = 0; i < trainLines.length; i++) {
-    for (j = 0; j < trainLines[i].length; j++) {
-      if (stationToSearch == trainLines[i][j].toLowerCase().replace(/\s+/g, "")) {
-        let lineFound = trainLines.indexOf(trainLines[i])
-        let stationFound = trainLines[i].indexOf(trainLines[i][j])        
-        return {
-          lineFound,
-          stationFound
+  function checkIfExists(stationToSearch) {
+    for (i = 0; i < trainLines.length; i++) {
+      for (j = 0; j < trainLines[i].length; j++) {
+        if (stationToSearch == trainLines[i][j].toLowerCase().replace(/\s+/g, "")) {
+          let lineFound = trainLines.indexOf(trainLines[i])
+          let stationFound = trainLines[i].indexOf(trainLines[i][j])        
+          return {
+            lineFound,
+            stationFound
+          }
         }
       }
-    }
   }
 }
 
@@ -127,7 +127,7 @@ function checkIfRichmond(origin, destination){
   }  
 }
 
-// findRoute(origin, destination)
+// findRoute(origin, destination) //Test Function
 
 submit.addEventListener('click', ()=>{
   let result = findRoute(inputOrigin.value, inputDestination.value)
